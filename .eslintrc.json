@@ -1,21 +1,25 @@
 {
-    "plugins": ["prettier", "import"],
-    "extends": [
-        "plugin:prettier/recommended",
-        "prettier"
-    ],
-    "parserOptions": {
-        "ecmaVersion": 2020,
-        "sourceType": "module"
-    },
+    "plugins": ["prettier", "import", "@typescript-eslint"],
     "env": {
         "es6": true,
         "browser": true,
-        "node": true
+        "node": true,
+        "es2021": true
+    },
+    "extends": ["standard-with-typescript",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2016,
+        "sourceType": "module"
     },
     "rules": {
         "no-debugger": "off",
         "no-console": 0,
-        "class-methods-use-this": "off"
-    }
+        "class-methods-use-this": "off",
+        "@typescript-eslint/no-var-requires": 0
+    },
+    "root": true
 }
