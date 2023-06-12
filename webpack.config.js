@@ -1,38 +1,56 @@
 const path = require('path');
-const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCss = require('mini-css-extract-plugin');
 
-const baseConfig = {
-    entry: path.resolve(__dirname, './src/index.js'),
+module.exports = {
+    entry: path.resolve(__dirname, './src/index.ts'),
+    devtool: 'eval-source-map',
     mode: 'development',
+    devServer: {
+        compress: true,
+        port: 9000,
+    },
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                test: /\.ts$/,
+                use: 'ts-loader',
+                include: [path.resolve(__dirname, 'src')],
+            },
+            {
+                test: /\.(s*)css$/,
+                use: [MiniCss.loader, 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]',
+                },
             },
         ],
     },
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.ts', '.js'],
     },
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
+            title: 'NewsPortal',
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
         }),
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin({
+            dry: true,
+            verbose: false,
+            cleanStaleWebpackAssets: false,
+        }),
+        new MiniCss({
+            filename: 'style.css',
+        }),
     ],
-};
-
-module.exports = ({ mode }) => {
-    const isProductionMode = mode === 'prod';
-    const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
-
-    return merge(baseConfig, envConfig);
 };

@@ -9,15 +9,28 @@
     <body>
         <header>
             <h1>News Portal</h1>
+            <div class="hamburger" id="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </div>
+            <div class="hamburger__list hide">
+                <div class="sources buttons"></div>
+            </div>
         </header>
         <main>
-            <div class="sources buttons"></div>
-            <div class="news"></div>
+            <div class="wrapper">
+                <div class="sources buttons"></div>
+                <div class="news"></div>
+            </div>
         </main>
         <footer>
-            <p class="copyright">
-                Copyright <a href="https://newsapi.org">NewsAPI</a>
-            </p>
+            <div class="footer-container">
+                <a href="https://rs.school/js/" class="rss"></a>
+                <div class="info">Updated: 12/06/2023</div>
+                <div><a href="https://github.com/JaKsHaZbi" class="github nav-link">GIT: JaKsHaZbi</a></div>
+
+            </div>
         </footer>
 
         <template id="sourceItemTemp">
@@ -45,7 +58,5 @@
                 </div>
             </div>
         </template>
-
-        <script src="./index.js"></script>
     </body>
 </html>
