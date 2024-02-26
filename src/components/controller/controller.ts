@@ -3,7 +3,7 @@ import Data from '../interfaces/dataArticles';
 import DataSources from '../interfaces/dataSources';
 
 class AppController extends AppLoader {
-    getSources(callback: (data?: DataSources) => void) {
+    getSources(callback: (data?: Readonly<DataSources>) => void) {
         super.getResp(
             {
                 endpoint: 'sources',

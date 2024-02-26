@@ -9,16 +9,17 @@ const extractJson = <Data>(res: Response): Promise<Data> => res.json();
 
 class Loader {
     baseLink: string;
-    options: object;
+    options: Partial<Options>;
+    private authToken?: string;
 
-    constructor(baseLink: string, options: Options) {
+    constructor(baseLink: string, options: Partial<Options>) {
         // object is very abstract, use Options for example
         this.baseLink = baseLink;
         this.options = options;
     }
 
     getResp(
-        { endpoint, options = {} }: { endpoint: string; options?: Options },
+        { endpoint, options = {} }: { endpoint: string; options?: Partial<Options> },
         callback = () => {
             console.error('No callback for GET response');
         }
@@ -41,7 +42,7 @@ class Loader {
     }
 
     // {} don't use it as type
-    makeUrl(options: Options, endpoint: string) {
+    makeUrl(options: Partial<Options>, endpoint: string) {
         // use Record instead
         const urlOptions: Record<string, string> = {
             ...this.options,
@@ -58,7 +59,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback: (data?: DataSources) => void, options: Options = {}) {
+    load(method: string, endpoint: string, callback: (data?: DataSources) => void, options: Partial<Options> = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then<DataSources>(extractJson) // use utils
